@@ -1,0 +1,20 @@
+
+
+.textTyping{
+    margin: 30vh auto;
+    width: 60%;
+}
+#text{
+    font-size: 28px;
+    text-align: center;
+}
+
+.char{
+    color: #31572C;
+}
+.char-error{
+    color:#ff6666;
+}
+.char-correct{
+    color: white;
+}
