@@ -1,11 +1,12 @@
-import Header from "../components/header/header"
-import { Link } from "react-router-dom"
-import TextTyping from "../components/textTyping/testTyping"
+import Header from "../components/common/Header";
+import TextTyping from "../components/features/testTyping/TestTyping";
 
 export default function Home(){
+
     return(
-    <>
-        <Header/>
-        <TextTyping />
-    </>)
+        <>
+            <Header/>
+            <TextTyping/>
+        </>
+    )
 }
