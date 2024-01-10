@@ -1,0 +1,35 @@
+#params{
+    padding: 1rem 2rem;
+    position: absolute;
+    background-image: linear-gradient(to left,#111,#222);
+    background-size: cover;
+    width: 80%;
+    max-width: 500px;
+    height: 100vh;
+    top: 0;
+    left: -80%;
+    transition: 1.5s;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+#params button:hover{
+    cursor: pointer;
+}
+.head-params{
+    display: flex;
+    justify-content: space-between;
+}
+
+.difficult{
+    display: flex;
+    justify-content: space-between;
+}
+.difficult p:hover,.theme p:hover{
+    cursor: pointer;
+}
+
+.theme{
+    display: flex;
+    justify-content: space-between;
+}

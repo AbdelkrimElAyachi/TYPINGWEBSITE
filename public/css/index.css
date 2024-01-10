@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: inherit;
+}
+.black-green{
+    --primary:#242424;
+    --secondary:#fff;
+    --third:#ECF39E;
+    --fourth:#666666;
+}
+.black-blue{
+    --primary:#242424;
+    --secondary:#fff;
+    --third:#00ffff;
+    --fourth:#ff6666;
+}
+
+
+@font-face {
+    font-family: 'Inter';
+    src: url("../assets/fonts/Inter-VariableFont_slnt\,wght.ttf");
+}
+
+
+body{
+    background-color: var(--primary);
+    color: var(--secondary);
+    font-family:'Inter';
+}
+button{
+    color:inherit;
+    background-color: inherit;
+    padding: 0.6rem 1.2rem;
+    border: solid 2px var(--third);
+}
+button:active{
+    background-color: var(--third);
+    color: var(--primary);
+}
+ul{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}

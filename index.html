@@ -3,9 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>OneType</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <script type="module" defer src="./src/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/css/index.css">
+    <link rel="stylesheet" type="text/css" href="public/css/header.css">
+    <link rel="stylesheet" type="text/css" href="public/css/aside.css">
 </head>
 <body>
-    <div id="root"></div>
+    <header >
+        <div  class="menu" onclick="handleParamsDisplay()" >
+            <img src="public/assets/img/burger.png" alt="button to display the parametres">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="./HowYouCanHelp.html">
+                    <span class="link_text" >Help Me</span>
+                    <span class="link_icon"><i class="bi bi-coin"></i></span>
+                </a></li>
+                <li><a href="#">
+                    <span class="link_text" >My Others Projects</span>
+                    <span class="link_icon"><i class="bi bi-github"></i></span>
+                </a></li>
+                <li><a href="./Contributing.html">
+                    <span class="link_text" >Contribute</span>
+                    <span class="link_icon"><i class="bi bi-info-circle"></i></span>
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <form id="params">
+        <div class="head-params">
+            <h2>Parametres</h2>
+            <button type="button" onclick="handleParamsDisplay()">close</button>
+        </div>
+        <div>
+            <h3 id="show-duration">Duration of the test : </h3><br>
+            <input style="width:100%;" type="range" name="duration" id="duration" min="1" max="10">
+        </div>
+        <div class="difficult">
+            <p id="easy" onclick="DifficultyChange(event)" >easy</p>
+            <p id="normal" onclick="DifficultyChange(event)" >normal</p>
+            <p id="hard" onclick="DifficultyChange(event)" >hard</p>
+        </div>
+        <div class="theme">
+            <p id="black-green" onclick="ThemeChange(event)" >black-green</p>
+            <p id="black-blue" onclick="ThemeChange(event)" >black-blue</p>
+        </div>
+    </form>
+
+    <main>
+        <article id="test">
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="logo">
+
+        </div>
+        <div class="message"></div>
+        <div class="links">
+
+        </div>
+    </footer>
+
+    <script type="module">
+        import store from "/src/main.js";
+        import {applyUI} from "/src/utils/ui.js"
+
+        let ShowDuration = document.getElementById("show-duration");
+        let duration = document.getElementById("duration");
+
+
+        // handle inputs change 
+        duration.onchange = ()=>{
+            ShowDuration.innerText = `Duration of the test : ${duration.value} min`
+            store.dispatch({type:"DURATION",payload:duration.value})
+        }
+
+        function DifficultyChange(e){
+            store.dispatch({type:"PARAMS",payload:{...store.getState(),difficulty:e.target.innerText}})
+            applyUI(store.getState())
+        }
+        window.DifficultyChange = DifficultyChange;
+
+        function ThemeChange(e){
+            store.dispatch({type:"UI",payload:{...store.getState().ui,theme:e.target.innerText}})
+            applyUI(store.getState())
+        }
+        window.ThemeChange = ThemeChange
+
+        // creating the global functions
+        function handleParamsDisplay(){
+            let state = store.getState()
+            store.dispatch({type:"UI",payload:{...state.ui,isParamsDisplayed:!state.ui.isParamsDisplayed}})
+            applyUI(store.getState());
+        }
+        window.handleParamsDisplay = handleParamsDisplay;
+
+
+    </script>
 </body>
 </html>
