@@ -16,7 +16,7 @@ nav ul li{
 }
 nav ul li:hover{
     color: var(--fourth);
-    border-bottom: solid 2px var(--secondary);
+    border-bottom: solid 2px var(--third);
 } 
 .link_icon{
     display: none;
@@ -25,8 +25,14 @@ nav ul li:hover{
     height: 50px;
     transition: 1s;
 }
-.menu img:hover{
+.menu i{
+    font-size: 48px;
+    color: var(--secondary);
+}
+.menu i:hover{
     cursor: pointer;
+    font-size: 50px;
+    color: var(--third);
 }
 
 @media(max-width:800px){

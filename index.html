@@ -9,11 +9,12 @@
     <link rel="stylesheet" type="text/css" href="public/css/index.css">
     <link rel="stylesheet" type="text/css" href="public/css/header.css">
     <link rel="stylesheet" type="text/css" href="public/css/aside.css">
+    <link rel="stylesheet" href="public/css/test.css">
 </head>
 <body>
     <header >
         <div  class="menu" onclick="handleParamsDisplay()" >
-            <img src="public/assets/img/burger.png" alt="button to display the parametres">
+            <i class="bi bi-text-paragraph"></i>
         </div>
         <nav>
             <ul>
@@ -49,13 +50,12 @@
         </div>
         <div class="theme">
             <p id="black-green" onclick="ThemeChange(event)" >black-green</p>
-            <p id="black-blue" onclick="ThemeChange(event)" >black-blue</p>
+            <p id="white-green" onclick="ThemeChange(event)" >white-green</p>
         </div>
     </form>
 
     <main>
         <article id="test">
-
         </article>
     </main>
 
@@ -83,25 +83,22 @@
             store.dispatch({type:"DURATION",payload:duration.value})
         }
 
-        function DifficultyChange(e){
+        window.DifficultyChange = function(e){
             store.dispatch({type:"PARAMS",payload:{...store.getState(),difficulty:e.target.innerText}})
             applyUI(store.getState())
         }
-        window.DifficultyChange = DifficultyChange;
 
-        function ThemeChange(e){
+        window.ThemeChange = function(e){
             store.dispatch({type:"UI",payload:{...store.getState().ui,theme:e.target.innerText}})
             applyUI(store.getState())
         }
-        window.ThemeChange = ThemeChange
 
         // creating the global functions
-        function handleParamsDisplay(){
+        window.handleParamsDisplay = function(){
             let state = store.getState()
             store.dispatch({type:"UI",payload:{...state.ui,isParamsDisplayed:!state.ui.isParamsDisplayed}})
             applyUI(store.getState());
         }
-        window.handleParamsDisplay = handleParamsDisplay;
 
 
     </script>

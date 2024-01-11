@@ -1,8 +1,9 @@
 #params{
     padding: 1rem 2rem;
     position: absolute;
-    background-image: linear-gradient(to left,#111,#222);
-    background-size: cover;
+    /* background-image: linear-gradient(to left,var(--fourth),var(--primary)); */
+    /* background-size: cover; */
+    background-color: var(--fourth);
     width: 80%;
     max-width: 500px;
     height: 100vh;

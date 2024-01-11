@@ -7,14 +7,21 @@
 .black-green{
     --primary:#242424;
     --secondary:#fff;
-    --third:#ECF39E;
-    --fourth:#666666;
+    --third:#a1ff82;
+    --fourth:#333;
+    --Nchar:#31572C;
+    --Cchar:#fff;
+    --Echar:#FF6666;
 }
-.black-blue{
-    --primary:#242424;
-    --secondary:#fff;
-    --third:#00ffff;
-    --fourth:#ff6666;
+.white-green{
+    --primary:#fff;
+    --secondary:#242424;
+    --third:#2dbd3c;
+    --fourth:#ddd;
+    --Nchar:#009a1f;
+
+    --Cchar:#989898;
+    --Echar:#FF6666;
 }
 
 

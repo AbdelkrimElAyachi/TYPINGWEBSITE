@@ -1,0 +1,28 @@
+
+.char{
+    color: var(--Nchar);
+}
+.char-correct{
+    color: var(--Cchar);
+}
+.char-error{
+    color: var(--Echar);
+}
+
+.curr-word{
+    border-bottom: 2px solid var(--third);
+}
+.wrong-word{
+    border-bottom: 2px solid var(--Echar);
+}
+
+main{
+    display: flex;
+    margin-top: 20vh;
+    justify-content: center
+}
+article{
+    font-size: 24px;
+    max-width: 80vw;
+    min-width: 300px;
+}
