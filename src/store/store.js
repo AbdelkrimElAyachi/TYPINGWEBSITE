@@ -1,6 +1,6 @@
+import reducer from "./reducer.js";
 
-
-export default function createStore(reducer){
+function createStore(reducer){
     let state ;
     let callback ;
 
@@ -27,3 +27,10 @@ export default function createStore(reducer){
     }
     
 }
+
+
+// definig the store where the parametres will get save
+const store = createStore(reducer);
+store.dispatch({type:"INIT"})
+
+export default store;

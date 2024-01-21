@@ -1,28 +1,49 @@
 // importing all the important functions and classes 
-import createStore from "./store/store.js";
-import reducer from "./store/reducer.js";
+import store from "./store/store.js";
 import { applyUI } from "./utils/ui.js";
 import Test from "./utils/Test.js";
 
-// definig the store where the parametres will get save
-const store = createStore(reducer);
-store.dispatch({type:"INIT"})
+
 applyUI(store.getState());
 
 
-export default store;
+ 
 
-//  use 
+let test_element = document.getElementById("test");
+let info_element = document.getElementById("info");
 
-let test = document.getElementById("test");
-let myTest = new Test("easy","1",test);
-myTest.render()
+let duration_en_seconds = store.getState().duration*60;
+let difficulty = store.getState().difficulty;
+let sound_path = "./public/assets/sounds/keyboard.wav";
+
+let text_lines = [
+    "this is the fist line of text yoku should be ashamed of yourself if you didn't finish it",
+    "congratulation you are not loser but you're still below average so don't lose here",
+    "!!! you are not a bad typing person you are average that's a surprise ??? Congratulation my frined",
+    "you're keeping surprising me you're showing that you are better than the average my frined",
+    "if we take 10 random people and compete them in typing you will be one of the top 5 between them",
+    "you know you are showing that you are pro if you arrive at this place you're either a gamer or nerd"
+]
+
+let typing_text = new Test(
+    difficulty,
+    duration_en_seconds,
+    test_element,
+    info_element,
+    sound_path,
+    text_lines
+);
+
 
 
 window.addEventListener("keyup",(e)=>{
-    myTest.test(e.key)
+    typing_text.buttonClicked(e.key);
 })
 
+
+setInterval(function() {
+    typing_text.anotherSecond();
+}, 1000);
 
 
 

@@ -8,9 +8,9 @@
     --primary:#242424;
     --secondary:#fff;
     --third:#a1ff82;
-    --fourth:#333;
+    --fourth:#666;
     --Nchar:#31572C;
-    --Cchar:#fff;
+    --Cchar:#eaffda;
     --Echar:#FF6666;
 }
 .white-green{
@@ -20,7 +20,7 @@
     --fourth:#ddd;
     --Nchar:#009a1f;
 
-    --Cchar:#989898;
+    --Cchar:#000;
     --Echar:#FF6666;
 }
 
