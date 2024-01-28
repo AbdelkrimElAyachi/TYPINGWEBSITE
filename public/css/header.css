@@ -15,7 +15,7 @@ nav ul li{
     font-weight: bold;
 }
 nav ul li:hover{
-    color: var(--fourth);
+    color: var(--third);
     border-bottom: solid 2px var(--third);
 } 
 .link_icon{

@@ -25,7 +25,7 @@ main{
 }
 .comment{
     margin-top: 1rem;
-    color: var(--fourth);
+    color: var(--secondary);
 }
 article{
     font-size: 24px;

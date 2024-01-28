@@ -1,10 +1,11 @@
 // importing all the important functions and classes 
-import store from "./store/store.js";
-import { applyUI } from "./utils/ui.js";
 import Test from "./utils/Test.js";
+import { getState, getUiState } from "./utils/state.js";
+
+const state = getState()
+let ui = getUiState()
 
 
-applyUI(store.getState());
 
 
  
@@ -12,8 +13,8 @@ applyUI(store.getState());
 let test_element = document.getElementById("test");
 let info_element = document.getElementById("info");
 
-let duration_en_seconds = store.getState().duration*60;
-let difficulty = store.getState().difficulty;
+let duration_en_seconds = state.duration*60;
+let difficulty = state.difficulty;
 let sound_path = "./public/assets/sounds/keyboard.wav";
 
 let text_lines = [

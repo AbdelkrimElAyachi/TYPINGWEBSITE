@@ -11,99 +11,128 @@
     <link rel="stylesheet" type="text/css" href="public/css/aside.css">
     <link rel="stylesheet" href="public/css/test.css">
 </head>
-<body>
-    <header >
-        <div  class="menu" onclick="handleParamsDisplay()" >
-            <i class="bi bi-text-paragraph"></i>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="./HowYouCanHelp.html">
-                    <span class="link_text" >Help Me</span>
-                    <span class="link_icon"><i class="bi bi-coin"></i></span>
-                </a></li>
-                <li><a href="#">
-                    <span class="link_text" >My Others Projects</span>
-                    <span class="link_icon"><i class="bi bi-github"></i></span>
-                </a></li>
-                <li><a href="./Contributing.html">
-                    <span class="link_text" >Contribute</span>
-                    <span class="link_icon"><i class="bi bi-info-circle"></i></span>
-                </a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <form id="params">
-        <div class="head-params">
-            <h2>Parametres</h2>
-            <button type="button" onclick="handleParamsDisplay()">close</button>
-        </div>
-        <div>
-            <h3 id="show-duration">Duration of the test : </h3><br>
-            <input style="width:100%;" type="range" name="duration" id="duration" min="1" max="10">
-        </div>
-        <div class="difficult">
-            <p id="easy" onclick="DifficultyChange(event)" >easy</p>
-            <p id="normal" onclick="DifficultyChange(event)" >normal</p>
-            <p id="hard" onclick="DifficultyChange(event)" >hard</p>
-        </div>
-        <div class="theme">
-            <p id="black-green" onclick="ThemeChange(event)" >black-green</p>
-            <p id="white-green" onclick="ThemeChange(event)" >white-green</p>
-        </div>
-    </form>
-
-    <main>
-        <article id="test">
-        </article>
-        <div id="info">
+<body >
+    <div id="app" >
+        <div >
+            <header>
+                <div  class="menu" @click="showParams" >
+                    <i class="bi bi-text-paragraph"></i>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="./HowYouCanHelp.html">
+                            <span class="link_text" >Help Me</span>
+                            <span class="link_icon"><i class="bi bi-coin"></i></span>
+                        </a></li>
+                        <li><a href="#">
+                            <span class="link_text" >My Others Projects</span>
+                            <span class="link_icon"><i class="bi bi-github"></i></span>
+                        </a></li>
+                        <li><a href="./Contributing.html">
+                            <span class="link_text" >Contribute</span>
+                            <span class="link_icon"><i class="bi bi-info-circle"></i></span>
+                        </a></li>
+                    </ul>
+                </nav>
+            </header>
             
-        </div>
-        <p  class="comment">start typing to start the test</p>
-    </main>
+            <form id="params">
+                <div class="head-params">
+                    <h2>Parametres</h2>
+                    <button type="button" @click="closeParams()">close</button>
+                </div>
+                <div>
+                    <h3 id="show-duration">Duration of the test : {{this.params.duration}} minutes</h3><br>
+                    <input style="width:100%;" type="range" @change="changeDuration" name="duration" id="duration" min="1" max="10">
+                </div>
+                <div class="difficult">
+                    <p id="easy" @click="changeDifficulty" :class="{diff:this.params.difficulty=='easy'}" >easy</p>
+                    <p id="normal" @click="changeDifficulty" :class="{diff:this.params.difficulty=='normal'}">normal</p>
+                    <p id="hard" @click="changeDifficulty" :class="{diff:this.params.difficulty=='hard'}">hard</p>
+                </div>
+                <div class="theme">
+                    <p id="black-green" @click="changeTheme" >black-green</p>
+                    <p id="white-green" @click="changeTheme" >white-green</p>
+                </div>
+            </form>
+        
+            <main>
+                <article id="test">
+                </article>
+                <div id="info">
+                    
+                </div>
+                <p  class="comment">start typing to start the test</p>
+            </main>
+        
+            <footer>
+                <div class="logo">
+        
+                </div>
+                <div class="message"></div>
+                <div class="links">
+        
+                </div>
+            </footer>
+        </div>        
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
 
-    <footer>
-        <div class="logo">
-
-        </div>
-        <div class="message"></div>
-        <div class="links">
-
-        </div>
-    </footer>
-
-    <script type="module">
-        import store from "/src/store/store.js";
-        import {applyUI} from "/src/utils/ui.js"
-
-        let ShowDuration = document.getElementById("show-duration");
-        let duration = document.getElementById("duration");
-
-
-        // handle inputs change 
-        duration.onchange = ()=>{
-            ShowDuration.innerText = `Duration of the test : ${duration.value} min`
-            store.dispatch({type:"DURATION",payload:duration.value})
-        }
-
-        window.DifficultyChange = function(e){
-            store.dispatch({type:"PARAMS",payload:{...store.getState(),difficulty:e.target.innerText}})
-            applyUI(store.getState())
-        }
-
-        window.ThemeChange = function(e){
-            store.dispatch({type:"UI",payload:{...store.getState().ui,theme:e.target.innerText}})
-            applyUI(store.getState())
-        }
-
-        // creating the global functions
-        window.handleParamsDisplay = function(){
-            let state = store.getState()
-            store.dispatch({type:"UI",payload:{...state.ui,isParamsDisplayed:!state.ui.isParamsDisplayed}})
-            applyUI(store.getState());
-        }
-
+        const app = Vue.createApp({
+            data() {
+                return {
+                    ui:null,
+                    params:null,
+                }
+            },
+            created(){
+                this.getUI();
+                this.getParams();
+                document.body.className = this.ui.theme;
+            }
+            ,
+            methods:{
+                getUI(){
+                    const initialUi={
+                        theme:"black-green",
+                    }
+                    this.ui = JSON.parse(localStorage.getItem("ui")) || initialUi;
+                },
+                getParams(){
+                    const initialParams={
+                        difficulty:"easy",
+                        duration:1,
+                    }
+                    this.params = JSON.parse(localStorage.getItem("params")) || initialParams;
+                },
+                showParams(){
+                    document.getElementById("params").style.left = "0px";
+                },
+                closeParams(){
+                    document.getElementById("params").style.left = "-80%";
+                },
+                save(){
+                    localStorage.setItem("ui",JSON.stringify(this.ui));
+                    localStorage.setItem("params",JSON.stringify(this.params));
+                },
+                changeDifficulty(e){
+                    this.params.difficulty = e.target.innerText;
+                    this.save();
+                },
+                changeDuration(e){
+                    this.params.duration = e.target.value;
+                    this.save();
+                },
+                changeTheme(e){
+                    this.ui.theme = e.target.innerText;
+                    document.body.className = this.ui.theme;
+                    this.save();
+                }
+            }
+        });
+        
+        app.mount('#app');
 
     </script>
 </body>

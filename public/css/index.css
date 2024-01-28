@@ -8,16 +8,16 @@
     --primary:#242424;
     --secondary:#fff;
     --third:#a1ff82;
-    --fourth:#666;
+    --fourth:#3b3b3b;
     --Nchar:#31572C;
     --Cchar:#eaffda;
     --Echar:#FF6666;
 }
 .white-green{
     --primary:#fff;
-    --secondary:#242424;
+    --secondary:#888888;
     --third:#2dbd3c;
-    --fourth:#ddd;
+    --fourth:#eee;
     --Nchar:#009a1f;
 
     --Cchar:#000;
