@@ -22,6 +22,7 @@ main{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 .comment{
     margin-top: 1rem;

@@ -51,8 +51,16 @@
                     <p id="hard" @click="changeDifficulty" :class="{diff:this.params.difficulty=='hard'}">hard</p>
                 </div>
                 <div class="theme">
-                    <p id="black-green" @click="changeTheme" >black-green</p>
-                    <p id="white-green" @click="changeTheme" >white-green</p>
+                    <p id="black-green" @click="changeTheme" :class="{diff:this.ui.theme=='black-green'}">black-green</p>
+                    <p id="white-green" @click="changeTheme" :class="{diff:this.ui.theme=='white-green'}">white-green</p>
+                </div>
+                <div >
+                    <select name="sound" class="sound" id="sound" @change="test">
+                        <option value="click">click</option>
+                        <option value="cherryBlue">cherryBlue</option>
+                        <option value="keyboard">keyboard</option>
+                        <option value="typeSoft">typeSoft</option>
+                    </select>
                 </div>
             </form>
         
@@ -103,6 +111,8 @@
                     const initialParams={
                         difficulty:"easy",
                         duration:1,
+                        language:"en",
+                        sound:"cherryBlue"
                     }
                     this.params = JSON.parse(localStorage.getItem("params")) || initialParams;
                 },
@@ -127,6 +137,10 @@
                 changeTheme(e){
                     this.ui.theme = e.target.innerText;
                     document.body.className = this.ui.theme;
+                    this.save();
+                },
+                test(e){
+                    this.params.sound = e.target.value;
                     this.save();
                 }
             }

@@ -7,21 +7,22 @@
 .black-green{
     --primary:#242424;
     --secondary:#fff;
-    --third:#a1ff82;
+    --third:#66ff33;
     --fourth:#3b3b3b;
+    
     --Nchar:#31572C;
     --Cchar:#eaffda;
     --Echar:#FF6666;
 }
 .white-green{
-    --primary:#fff;
-    --secondary:#888888;
-    --third:#2dbd3c;
+    --primary:#ffffff;
+    --secondary:#5a5a5a;
+    --third:#ff7f16;
     --fourth:#eee;
-    --Nchar:#009a1f;
 
-    --Cchar:#000;
-    --Echar:#FF6666;
+    --Nchar:#ddd;
+    --Cchar:#ff7f16;
+    --Echar:#ff3333;
 }
 
 
@@ -35,6 +36,7 @@ body{
     background-color: var(--primary);
     color: var(--secondary);
     font-family:'Inter';
+    font-weight: bold;
 }
 button{
     color:inherit;
@@ -51,4 +53,22 @@ ul{
 }
 a{
     text-decoration: none;
+}
+
+
+.sound {
+    background-color: var(--primary);
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    padding: 8px;
+    width: 100%;
+}
+
+.sound option {
+    background-color: var(--fourth);
+    color: var(--secondary);
+}
+
+.sound:focus {
+    border-color: var(--third);
 }
