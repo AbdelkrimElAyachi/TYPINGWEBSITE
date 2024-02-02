@@ -1,13 +1,15 @@
 
 export default class Test{
     
-    constructor(level,duration,element_base,element_info,click_sound,texts){
+    constructor(level,duration,sound,texts,element_base,element_info){
 
         this.test_started = false;
         this.test_finished = false;
         this.time_passed = 0;
 
-        this.audio = new Audio(click_sound);
+        let sound_path = this.getSoundPath(sound);
+
+        this.audio = new Audio(sound_path);
         this.audio.playbackRate = 1.5;
 
         this.element_base = element_base;
@@ -27,6 +29,16 @@ export default class Test{
         this.render();
     }
     
+    getSoundPath(sound){
+        const sounds = {
+            "keyboard":"./public/assets/sounds/keyboard.wav",
+            "click":"./public/assets/sounds/click.wav",
+            "cherryBlue":"./public/assets/sounds/cherryBlue.wav",
+            "typeSoft":"./public/assets/sounds/typeSoft.wav",
+        }
+        return sounds[sound];
+    }
+
     setText(text){
         // the indexes that will grow with us :)
         this.charIndex = 0;
@@ -51,6 +63,8 @@ export default class Test{
     }
 
     buttonClicked(char){
+        this.audio.currentTime = 0;
+        this.audio.play();
         this.test_started = true;
         if(this.test_started && !this.test_finished){
             this.handleChar(char);
@@ -116,79 +130,8 @@ export default class Test{
 
     }
 
-    // test(char){
-    //     this.audio.currentTime = 0;
-    //     this.audio.play() 
-    //     if(this.test_finished){
-    //         return ;
-    //     }
-    //     if(char===this.text_2d_arr[this.wordIndex][this.charIndex]){
-    //         this.correct_chars++;
-    //         this.classes[this.wordIndex][this.charIndex] = "char-correct";
-    //         this.charIndex++;
-    //     }
-    //     else if(char===" "){
-    //         this.wordIndex++;
-    //         if(this.word_classes[this.wordIndex-1]=="curr-word"){
-    //             this.word_classes[this.wordIndex-1] = "word";
-    //             this.correct_words ++;
-    //         }else{
-    //             this.wrong_words++;
-    //         }
-    //         this.word_classes[this.wordIndex]="curr-word";
-    //         this.charIndex = 0;
-    //     }else{
-    //         this.classes[this.wordIndex][this.charIndex] = "char-error";
-    //         this.word_classes[this.wordIndex]="wrong-word"
-    //         this.charIndex++;
-    //         this.wrong_chars++;
-    //     }
-    //     this.render()
-    // }
-    
-    // startTest(){
-    //     this.test_started = true;
-    //     this.test_finished = false;
-    // }
-    
-    // endTest(){
-        
-    // }
-    
-    // displayResults(){
-        
-    // }
-    
-    // anotherSecond(){
-    //     if(this.test_started && !this.test_finished){
-    //         this.time_passed += 1;
-    //     }
-    //     if(this.time_passed>this.duration){
-    //         this.test_finished = true;
-    //         this.test_started = false;
-    //         this.endTest();
-    //     }
-    // }
-
-    // render(){
-
-    //     this.html = this.text.split(" ").map((word,WInd)=>{
-
-    //         let wordHTML = word.split("").map((char,CInd)=>{
-    //             return `<span class="${this.classes[WInd][CInd]}">${char}</span>`
-    //         }).join("")
-    
-    //         return `<span class="${this.word_classes[WInd]}">${wordHTML}</span>`;
-    
-    //     }).join(" ");
-
-
-    //     this.element_base.innerHTML = this.html;
-
-    //     this.element_info.innerHTML = `
-    //     <p>correct chs : <span class="char-correct">${this.correct_chars}</span>  wrong chs : <span class="char-error">${this.wrong_chars}</span></p>
-    //     <p>correct words : <span class="char-correct">${this.correct_words}</span> wrong words : <span class="char-error">${this.wrong_words}</span></p>
-    //     `
-    // }
+    changeConfiguration(difficulty,sound){
+        pass
+    }
 
 }

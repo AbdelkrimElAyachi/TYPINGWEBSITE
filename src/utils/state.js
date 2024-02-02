@@ -1,17 +1,11 @@
 export function getState(){
-    return {
+    const initParams = {
         duration:"1",
         language:"en",
         difficulty:"easy",
-        sound:"click",
+        sound:"cherryBlue",
     }
-}
 
-
-export function getUiState(){
-    return {
-        isParamsDisplayed : false,
-        theme:"black-green",
-        difficulty:"easy"
-    };
+    const params = JSON.parse(localStorage.getItem("params")) || initParams;
+    return params;
 }
