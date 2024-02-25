@@ -72,3 +72,7 @@ a{
 .sound:focus {
     border-color: var(--third);
 }
+
+#timer{
+    color: var(--third);
+}

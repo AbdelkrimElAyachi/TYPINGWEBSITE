@@ -1,9 +1,8 @@
 
 export default class Test{
     
-    constructor(level,duration,sound,texts,element_base,element_info){
+    constructor(level,duration,sound,texts,element_base,element_info,element_timer){
 
-        this.test_started = false;
         this.test_finished = false;
         this.time_passed = 0;
 
@@ -14,6 +13,8 @@ export default class Test{
 
         this.element_base = element_base;
         this.element_info = element_info;
+        this.element_timer = element_timer;
+
         this.level = level;
         this.duration = duration;
 
@@ -29,6 +30,7 @@ export default class Test{
         this.render();
     }
     
+    // get the path of the sound using its name
     getSoundPath(sound){
         const sounds = {
             "keyboard":"./public/assets/sounds/keyboard.wav",
@@ -43,19 +45,15 @@ export default class Test{
         // the indexes that will grow with us :)
         this.charIndex = 0;
         this.wordIndex = 0;
-
-
         this.text = this.text_lines[this.line_index];
         this.text_2d_arr = this.text.split(" ").map(word=>{
             return word.split("").map(char=>{
                 return char 
             })
         })
-        
         // word classes when we store our word classes to remeber them RIP :(
         this.word_classes = this.text.split(" ").map( word => "word" );
         this.word_classes[0] = "curr-word";
-            
         this.classes = this.text.split(" ").map((word,ind)=>{
             return word.split("").map(char=>"char");
         })
@@ -65,8 +63,7 @@ export default class Test{
     buttonClicked(char){
         this.audio.currentTime = 0;
         this.audio.play();
-        this.test_started = true;
-        if(this.test_started && !this.test_finished){
+        if(!this.test_finished){
             this.handleChar(char);
         }
 
@@ -78,25 +75,34 @@ export default class Test{
     }
 
     handleChar(char){
+        // if space then go to next word check if the word we were in is not wrong if it's not change its class back
+        // to normal word .word and highlight the new word by underline using .curr-word
         if(char==" "){
             this.wordIndex++;
             this.charIndex=0;
             this.word_classes[this.wordIndex] = "curr-word";
             if(this.word_classes[this.wordIndex-1]!="wrong-word"){
                 this.word_classes[this.wordIndex-1] = "word";
+                this.correct_words++;
             }
         }
+        // if char correct higlight the char using .char-correct else use .char-error and higlight the word also using .wrong-word
         else{
             if(char == this.text_2d_arr[this.wordIndex][this.charIndex]){
                 this.classes[this.wordIndex][this.charIndex] = "char-correct";
+                this.correct_chars++;
             }
             else{
                 this.classes[this.wordIndex][this.charIndex] = "char-error";
-                this.word_classes[this.wordIndex] = "wrong-word"
+                this.wrong_chars++;
+                if(this.word_classes[this.wordIndex]!= "wrong-word"){
+                    this.word_classes[this.wordIndex] = "wrong-word";
+                    this.wrong_words++;
+                }
             }
             this.charIndex++;
         }
-        console.log(`word index : ${this.wordIndex}   length : ${this.text_2d_arr.length-1}'`)            
+        // if we get to the end of line generate new line
         if(this.wordIndex > this.text_2d_arr.length-1){
                 this.nextline();
         }
@@ -104,6 +110,7 @@ export default class Test{
     }
 
     anotherSecond(){
+        this.element_timer.innerHTML = `${(60-this.time_passed)}s`;
         this.time_passed++;
         if(this.time_passed>=this.duration){
             this.test_finished = true;
@@ -111,27 +118,22 @@ export default class Test{
     }
 
     restart(){
-        this.test_started = false;
-        this.test_finished = false;
-        this.time_passed = 0;
-        this.setText();
-        this.render();
+        pass;
     }
 
     render(){
+        // generate html to base elemnt 
         let html = this.text.split(" ").map((word,WI)=>{
             let word_html = word.split("").map((char,CI)=>{
                 return `<span class="${this.classes[WI][CI]}">${char}</span>`;
             }).join("");
             return `<span class="${this.word_classes[WI]}">${word_html}</span>`;
         }).join(" ");
-
+        // add in it to the element 
         this.element_base.innerHTML = html; 
-
+        console.log(`correct chars:${this.correct_chars}  correct words:${this.correct_words}`);
     }
 
-    changeConfiguration(difficulty,sound){
-        pass
-    }
+
 
 }

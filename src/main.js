@@ -5,7 +5,6 @@ import { getState } from "./utils/state.js";
 // getting state from localStorage if it exists initialize it if it doesn't
 let state = getState()
 
-
 /* 
     Since i'm  using vue in index.html whenever user change something like difficulty it gets stored in the local storage
     But the state in this file main.js does not change so to make sure the state in this file keep updated 
@@ -17,7 +16,19 @@ function updateState(){
 }
 
 
- 
+// when the values of those inputs change we should update our states
+// select input of the sound 
+document.getElementById("sound").onchange = updateState;
+// duration change 
+document.getElementById("duration").onchange = updateState;
+// difficulty change
+document.getElementById("easy").onclick = updateState;
+document.getElementById("normal").onclick = updateState;
+document.getElementById("hard").onclick = updateState;
+
+
+// elemtn to display how much time left
+let timer_element = document.getElementById("timer");
 // test_element the element when the words will appear 
 let test_element = document.getElementById("test");
 // the info element the element when information like current wrong words or character or the last time 
@@ -27,7 +38,7 @@ let info_element = document.getElementById("info");
 
 
 
-let duration_en_seconds = state.duration*60;
+let duration_en_seconds = (state.duration*60)+1;
 let difficulty = state.difficulty;
 let sound = state.sound;
 let text_lines = [
@@ -46,6 +57,7 @@ let typing_text = new Test(
     text_lines,
     test_element,
     info_element,
+    timer_element,
 );
 
 
@@ -56,17 +68,5 @@ window.addEventListener("keyup",(e)=>{
 
 
 setInterval(function() {
-    typing_text.anotherSecond();
+    if(!typing_text.test_finished)  typing_text.anotherSecond();
 }, 1000);
-
-
-// when the values of those inputs change we should update our states
-// select input of the sound 
-document.getElementById("sound").onchange = updateState;
-// duration change 
-document.getElementById("duration").onchange = updateState;
-// difficulty change
-document.getElementById("easy").onclick = updateState;
-document.getElementById("normal").onclick = updateState;
-document.getElementById("hard").onclick = updateState;
-
