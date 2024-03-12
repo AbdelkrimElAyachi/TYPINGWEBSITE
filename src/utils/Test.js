@@ -4,6 +4,7 @@ export default class Test{
     constructor(level,duration,sound,texts,element_base,element_info,element_timer){
 
         this.test_finished = false;
+        this.test_started = false;
         this.time_passed = 0;
 
         let sound_path = this.getSoundPath(sound);
@@ -30,6 +31,13 @@ export default class Test{
         this.render();
     }
     
+
+    startTest(){
+        this.test_started = true;
+        this.test_finished = false;
+    }
+
+
     // get the path of the sound using its name
     getSoundPath(sound){
         const sounds = {
@@ -62,8 +70,8 @@ export default class Test{
 
     buttonClicked(char){
         this.audio.currentTime = 0;
-        this.audio.play();
         if(!this.test_finished){
+            this.audio.play();
             this.handleChar(char);
         }
 
@@ -117,9 +125,6 @@ export default class Test{
         }
     }
 
-    restart(){
-        pass;
-    }
 
     render(){
         // generate html to base elemnt 

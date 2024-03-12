@@ -63,10 +63,15 @@ let typing_text = new Test(
 
 
 window.addEventListener("keyup",(e)=>{
-    typing_text.buttonClicked(e.key);
+    if(!typing_text.test_finished && typing_text.test_started)    typing_text.buttonClicked(e.key);
 })
 
 
 setInterval(function() {
-    if(!typing_text.test_finished)  typing_text.anotherSecond();
+    if(!typing_text.test_finished && typing_text.test_started)  typing_text.anotherSecond();
 }, 1000);
+
+
+document.getElementById("btn-start-test").addEventListener('click',()=>{
+    typing_text.startTest();
+});
