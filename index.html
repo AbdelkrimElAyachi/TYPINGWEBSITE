@@ -15,7 +15,7 @@
     <div id="app" >
         <div >
             <header>
-                <div  class="menu" @click="showParams" >
+                <div  class="menu" @click="show_params" >
                     <i class="bi bi-text-paragraph"></i>
                 </div>
                 <nav>
@@ -39,23 +39,23 @@
             <form id="params">
                 <div class="head-params">
                     <h2>Parametres</h2>
-                    <button type="button" @click="closeParams()">close</button>
+                    <button type="button" @click="close_params">close</button>
                 </div>
                 <div>
                     <h3 id="show-duration">Duration of the test : {{this.params.duration}} minutes</h3><br>
-                    <input style="width:100%;" type="range" @change="changeDuration" name="duration" id="duration" min="1" max="10">
+                    <input style="width:100%;" type="range" @change="change_duration" name="duration" id="duration" min="1" max="10">
                 </div>
                 <div class="difficult">
-                    <p id="easy" @click="changeDifficulty" :class="{diff:this.params.difficulty=='easy'}" >easy</p>
-                    <p id="normal" @click="changeDifficulty" :class="{diff:this.params.difficulty=='normal'}">normal</p>
-                    <p id="hard" @click="changeDifficulty" :class="{diff:this.params.difficulty=='hard'}">hard</p>
+                    <p id="easy" @click="change_difficulty" :class="{diff:this.params.difficulty=='easy'}" >easy</p>
+                    <p id="normal" @click="change_difficulty" :class="{diff:this.params.difficulty=='normal'}">normal</p>
+                    <p id="hard" @click="change_difficulty" :class="{diff:this.params.difficulty=='hard'}">hard</p>
                 </div>
                 <div class="theme">
-                    <p id="black-green" @click="changeTheme" :class="{diff:this.ui.theme=='black-green'}">black-green</p>
-                    <p id="white-green" @click="changeTheme" :class="{diff:this.ui.theme=='white-green'}">white-green</p>
+                    <p id="black-green" @click="change_theme" :class="{diff:this.ui.theme=='black-green'}">black-green</p>
+                    <p id="white-green" @click="change_theme" :class="{diff:this.ui.theme=='white-green'}">white-green</p>
                 </div>
                 <div >
-                    <select name="sound" class="sound" id="sound" @change="test">
+                    <select name="sound" class="sound" id="sound" @change="change_sound">
                         <option value="click">click</option>
                         <option value="cherryBlue">cherryBlue</option>
                         <option value="keyboard">keyboard</option>
@@ -71,7 +71,10 @@
                 <div id="info">
                     
                 </div>
-                <button id="btn-start-test">start test</button>
+                <div style="display: flex;gap:1rem;">
+                    <button id="btn-start-test">start test</button>
+                    <button id="btn-restart-test">restart test</button>
+                </div>
             </main>
         
             <footer>
@@ -96,57 +99,56 @@
                 }
             },
             created(){
-                this.getUI();
-                this.getParams();
+                this.get_ui();
+                this.get_params();
                 document.body.className = this.ui.theme;
             }
             ,
             methods:{
-                getUI(){
+                get_ui(){
                     const initialUi={
                         theme:"black-green",
                     }
                     this.ui = JSON.parse(localStorage.getItem("ui")) || initialUi;
                 },
-                getParams(){
+                get_params(){
                     const initialParams={
                         difficulty:"easy",
                         duration:1,
                         language:"en",
-                        sound:"cherryBlue"
+                        sound:"cherryBlue",
                     }
                     this.params = JSON.parse(localStorage.getItem("params")) || initialParams;
                 },
-                showParams(){
+                show_params(){
                     document.getElementById("params").style.left = "0px";
                 },
-                closeParams(){
+                close_params(){
                     document.getElementById("params").style.left = "-80%";
+                },
+                change_difficulty(e){
+                    this.params.difficulty = e.target.innerText;
+                    this.save();
+                },
+                change_duration(e){
+                    this.params.duration = e.target.value;
+                    this.save();
+                },
+                change_theme(e){
+                    this.ui.theme = e.target.innerText;
+                    document.body.className = this.ui.theme;
+                    this.save();
+                },
+                change_sound(e){
+                    this.params.sound = e.target.value;
+                    this.save();
                 },
                 save(){
                     localStorage.setItem("ui",JSON.stringify(this.ui));
                     localStorage.setItem("params",JSON.stringify(this.params));
                 },
-                changeDifficulty(e){
-                    this.params.difficulty = e.target.innerText;
-                    this.save();
-                },
-                changeDuration(e){
-                    this.params.duration = e.target.value;
-                    this.save();
-                },
-                changeTheme(e){
-                    this.ui.theme = e.target.innerText;
-                    document.body.className = this.ui.theme;
-                    this.save();
-                },
-                test(e){
-                    this.params.sound = e.target.value;
-                    this.save();
-                }
             }
         });
-        
         app.mount('#app');
 
     </script>

@@ -1,6 +1,17 @@
 
 export default class Test{
     
+    // get the path of the sound using its name
+    getSoundPath(sound){
+        const sounds = {
+            "keyboard":"./public/assets/sounds/keyboard.wav",
+            "click":"./public/assets/sounds/click.wav",
+            "cherryBlue":"./public/assets/sounds/cherryBlue.wav",
+            "typeSoft":"./public/assets/sounds/typeSoft.wav",
+        }
+        return sounds[sound];
+    }
+    
     constructor(level,duration,sound,texts,element_base,element_info,element_timer){
 
         this.test_finished = false;
@@ -24,7 +35,6 @@ export default class Test{
         this.correct_chars = 0;
         this.wrong_chars = 0;
 
-            
         this.text_lines = texts;
         this.line_index = 0;
         this.setText();
@@ -32,27 +42,42 @@ export default class Test{
     }
     
 
-    startTest(){
+    startTest(sound,duration,level){
         this.test_started = true;
         this.test_finished = false;
+        this.sound_path = this.getSoundPath(sound) || this.audio;
+        this.sound = new Audio(this.sound_path)
+        this.duration = duration || this.duration;
+        this.level = level || this.level;
     }
+    
+    restart(sound,duration,level,texts){
+        this.time_passed = 0;
+        this.test_finished = false;
+        this.test_started = false;
 
+        this.sound_path = this.getSoundPath(sound) || this.audio;
+        this.sound = new Audio(this.sound_path)
+        this.duration = duration || this.duration;
+        this.level = level || this.level;
 
-    // get the path of the sound using its name
-    getSoundPath(sound){
-        const sounds = {
-            "keyboard":"./public/assets/sounds/keyboard.wav",
-            "click":"./public/assets/sounds/click.wav",
-            "cherryBlue":"./public/assets/sounds/cherryBlue.wav",
-            "typeSoft":"./public/assets/sounds/typeSoft.wav",
-        }
-        return sounds[sound];
+        this.correct_words = 0;
+        this.wrong_words = 0;
+        this.correct_chars = 0;
+        this.wrong_chars = 0;
+            
+        this.text_lines = texts;
+        this.line_index = 0;
+        this.setText();
+        this.render();
+        this.element_timer.innerHTML = `${(this.duration-this.time_passed-1)}s`;
     }
-
-    setText(text){
+    
+    setText(){
         // the indexes that will grow with us :)
         this.charIndex = 0;
         this.wordIndex = 0;
+
         this.text = this.text_lines[this.line_index];
         this.text_2d_arr = this.text.split(" ").map(word=>{
             return word.split("").map(char=>{
@@ -69,14 +94,15 @@ export default class Test{
     }
 
     buttonClicked(char){
+        if(!this.test_started && !this.test_finished) return false;
         this.audio.currentTime = 0;
         if(!this.test_finished){
             this.audio.play();
             this.handleChar(char);
         }
-
+        
     }
-
+    
     nextline(){
         this.line_index++;
         this.setText();
@@ -112,13 +138,13 @@ export default class Test{
         }
         // if we get to the end of line generate new line
         if(this.wordIndex > this.text_2d_arr.length-1){
-                this.nextline();
+            this.nextline();
         }
         this.render();
     }
-
+    
     anotherSecond(){
-        this.element_timer.innerHTML = `${(60-this.time_passed)}s`;
+        this.element_timer.innerHTML = `${(this.duration-this.time_passed-1)}s`;
         this.time_passed++;
         if(this.time_passed>=this.duration){
             this.test_finished = true;

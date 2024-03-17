@@ -1,30 +1,20 @@
 // importing all the important functions and classes 
 import Test from "./utils/Test.js";
-import { getState } from "./utils/state.js";
+import { get_state,get_texts } from "./utils/state.js";
 
 // getting state from localStorage if it exists initialize it if it doesn't
-let state = getState()
+let state = get_state()
 
 /* 
     Since i'm  using vue in index.html whenever user change something like difficulty it gets stored in the local storage
     But the state in this file main.js does not change so to make sure the state in this file keep updated 
     updated i updated by listening on input element and whenver there is change i get it from the localStorage
 */
-function updateState(){
-    state = getState();
+function update_state(){
+    state = get_state();
     console.log(state);
 }
 
-
-// when the values of those inputs change we should update our states
-// select input of the sound 
-document.getElementById("sound").onchange = updateState;
-// duration change 
-document.getElementById("duration").onchange = updateState;
-// difficulty change
-document.getElementById("easy").onclick = updateState;
-document.getElementById("normal").onclick = updateState;
-document.getElementById("hard").onclick = updateState;
 
 
 // elemtn to display how much time left
@@ -41,20 +31,12 @@ let info_element = document.getElementById("info");
 let duration_en_seconds = (state.duration*60)+1;
 let difficulty = state.difficulty;
 let sound = state.sound;
-let text_lines = [
-    "this is the first line of text you should be ashamed of yourself if you can't finish it",
-    "congratulation you are not loser but you're still below average so don't lose here",
-    "!!! you are not a bad typing person you are average that's a surprise ??? Congratulation my frined",
-    "you're keeping surprising me you're showing that you are better than the average my frined",
-    "if we take 10 random people and compete them in typing you will be one of the top 5 between them",
-    "you know you are showing that you are pro if you arrive at this place you're either a gamer or nerd"
-]
 
 let typing_text = new Test(
     difficulty,
     duration_en_seconds,
     sound,
-    text_lines,
+    get_texts(difficulty),
     test_element,
     info_element,
     timer_element,
@@ -63,7 +45,7 @@ let typing_text = new Test(
 
 
 window.addEventListener("keyup",(e)=>{
-    if(!typing_text.test_finished && typing_text.test_started)    typing_text.buttonClicked(e.key);
+    typing_text.buttonClicked(e.key);
 })
 
 
@@ -73,5 +55,17 @@ setInterval(function() {
 
 
 document.getElementById("btn-start-test").addEventListener('click',()=>{
-    typing_text.startTest();
+    update_state();
+    let duration_en_seconds = (state.duration*60)+1;
+    let difficulty = state.difficulty;
+    let sound = state.sound;
+    typing_text.startTest(sound,duration_en_seconds,difficulty);
 });
+
+document.getElementById("btn-restart-test").addEventListener("click",()=>{
+    update_state();
+    let duration_en_seconds = (state.duration*60)+1;
+    let difficulty = state.difficulty;
+    let sound = state.sound;
+    typing_text.restart(sound,duration_en_seconds,difficulty,get_texts(difficulty));
+})
