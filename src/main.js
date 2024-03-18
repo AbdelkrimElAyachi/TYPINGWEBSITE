@@ -2,7 +2,7 @@
 import Test from "./utils/Test.js";
 import { get_state,get_texts } from "./utils/state.js";
 import { inject } from "@vercel/analytics";
-
+inject();
 // getting state from localStorage if it exists initialize it if it doesn't
 let state = get_state()
 
