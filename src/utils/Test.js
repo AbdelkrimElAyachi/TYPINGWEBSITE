@@ -39,6 +39,8 @@ export default class Test{
         this.line_index = 0;
         this.setText();
         this.render();
+
+        this.element_timer.innerHTML = `${(this.duration-this.time_passed-1)}s`
     }
     
 
@@ -78,7 +80,7 @@ export default class Test{
         this.charIndex = 0;
         this.wordIndex = 0;
 
-        this.text = this.text_lines[this.line_index];
+        this.text = this.text_lines[this.line_index].trim();
         this.text_2d_arr = this.text.split(" ").map(word=>{
             return word.split("").map(char=>{
                 return char 
@@ -99,6 +101,11 @@ export default class Test{
         if(!this.test_finished){
             this.audio.play();
             this.handleChar(char);
+            // if we get to the end of line generate new line
+            if(this.wordIndex > this.text_2d_arr.length-1){
+                this.nextline();
+            }
+            this.render();
         }
         
     }
@@ -109,6 +116,11 @@ export default class Test{
     }
 
     handleChar(char){
+        console.log(char);
+        // to not hanle shift and capslock as keys
+        if(char=="Shift" || char=="CapsLock"){
+            return "shift&CapsLock";
+        }
         // if space then go to next word check if the word we were in is not wrong if it's not change its class back
         // to normal word .word and highlight the new word by underline using .curr-word
         if(char==" "){
@@ -119,28 +131,24 @@ export default class Test{
                 this.word_classes[this.wordIndex-1] = "word";
                 this.correct_words++;
             }
+            return "space";
         }
         // if char correct higlight the char using .char-correct else use .char-error and higlight the word also using .wrong-word
+
+        if(char == this.text_2d_arr[this.wordIndex][this.charIndex]){
+            this.classes[this.wordIndex][this.charIndex] = "char-correct";
+            this.correct_chars++;
+        }
         else{
-            if(char == this.text_2d_arr[this.wordIndex][this.charIndex]){
-                this.classes[this.wordIndex][this.charIndex] = "char-correct";
-                this.correct_chars++;
+            this.classes[this.wordIndex][this.charIndex] = "char-error";
+            this.wrong_chars++;
+            if(this.word_classes[this.wordIndex]!= "wrong-word"){
+                this.word_classes[this.wordIndex] = "wrong-word";
+                this.wrong_words++;
             }
-            else{
-                this.classes[this.wordIndex][this.charIndex] = "char-error";
-                this.wrong_chars++;
-                if(this.word_classes[this.wordIndex]!= "wrong-word"){
-                    this.word_classes[this.wordIndex] = "wrong-word";
-                    this.wrong_words++;
-                }
-            }
-            this.charIndex++;
         }
-        // if we get to the end of line generate new line
-        if(this.wordIndex > this.text_2d_arr.length-1){
-            this.nextline();
-        }
-        this.render();
+        this.charIndex++;
+
     }
     
     anotherSecond(){

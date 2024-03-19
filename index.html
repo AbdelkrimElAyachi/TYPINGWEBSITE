@@ -62,12 +62,15 @@
                         <option value="typeSoft">typeSoft</option>
                     </select>
                 </div>
+                <div >
+                    <input type="text" name="subject" class="sound" placeholder="enter your subject" id="sound" @change="change_subject"/>
+                </div>
             </form>
         
             <main>
                 <p  class="comment">start typing to start the test</p>
                 <article id="test"></article>
-                <h2 id="timer"></h2>
+                <p id="timer"></p>
                 <div id="info">
                     
                 </div>
@@ -117,6 +120,7 @@
                         duration:1,
                         language:"en",
                         sound:"cherryBlue",
+                        subject:"naruto",
                     }
                     this.params = JSON.parse(localStorage.getItem("params")) || initialParams;
                 },
@@ -141,6 +145,10 @@
                 },
                 change_sound(e){
                     this.params.sound = e.target.value;
+                    this.save();
+                },
+                change_subject(e){
+                    this.params.subject = e.target.value;
                     this.save();
                 },
                 save(){

@@ -28,15 +28,13 @@ let info_element = document.getElementById("info");
 
 
 
-let duration_en_seconds = (state.duration*60)+1;
-let difficulty = state.difficulty;
-let sound = state.sound;
+let texts = await get_texts(state.difficulty,state.subject);
 
 let typing_text = new Test(
-    difficulty,
-    duration_en_seconds,
-    sound,
-    get_texts(difficulty),
+    state.difficulty,
+    (state.duration * 60)+1,
+    state.sound,
+    texts,
     test_element,
     info_element,
     timer_element,
@@ -62,10 +60,13 @@ document.getElementById("btn-start-test").addEventListener('click',()=>{
     typing_text.startTest(sound,duration_en_seconds,difficulty);
 });
 
-document.getElementById("btn-restart-test").addEventListener("click",()=>{
+document.getElementById("btn-restart-test").addEventListener("click",async()=>{
     update_state();
-    let duration_en_seconds = (state.duration*60)+1;
-    let difficulty = state.difficulty;
-    let sound = state.sound;
-    typing_text.restart(sound,duration_en_seconds,difficulty,get_texts(difficulty));
+    let texts = await get_texts(state.difficulty,state.subject);
+    typing_text.restart(
+        state.sound,
+        (state.duration * 60) + 1,
+        state.difficulty,
+        texts
+        );
 })
